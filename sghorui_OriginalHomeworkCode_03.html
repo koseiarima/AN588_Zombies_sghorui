@@ -75,19 +75,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul class="collapse">
-  <li><a href="#loading-data" id="toc-loading-data" class="nav-link active" data-scroll-target="#loading-data">Loading Data</a></li>
-  <li><a href="#q1-population-mean-standard-deviation" id="toc-q1-population-mean-standard-deviation" class="nav-link" data-scroll-target="#q1-population-mean-standard-deviation">Q1: Population Mean &amp; Standard Deviation</a></li>
-  <li><a href="#q2-boxplots-by-gender" id="toc-q2-boxplots-by-gender" class="nav-link" data-scroll-target="#q2-boxplots-by-gender">Q2: Boxplots by Gender</a></li>
-  <li><a href="#q3-scatterplots-of-height-and-weight-vs.-age" id="toc-q3-scatterplots-of-height-and-weight-vs.-age" class="nav-link" data-scroll-target="#q3-scatterplots-of-height-and-weight-vs.-age">Q3: Scatterplots of Height and Weight vs.&nbsp;Age</a></li>
-  <li><a href="#q4-check-normality-histograms-q-q-plots" id="toc-q4-check-normality-histograms-q-q-plots" class="nav-link" data-scroll-target="#q4-check-normality-histograms-q-q-plots">Q4: Check Normality (Histograms + Q-Q Plots)</a></li>
-  <li><a href="#q5-sample-of-30-survivors-95-cis" id="toc-q5-sample-of-30-survivors-95-cis" class="nav-link" data-scroll-target="#q5-sample-of-30-survivors-95-cis">Q5: Sample of 30 Survivors &amp; 95% CIs</a></li>
-  </ul>
-</nav>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+  
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -166,8 +155,8 @@ Attaching package: 'curl'</code></pre>
     parse_date</code></pre>
 </div>
 </div>
-<section id="loading-data" class="level2">
-<h2 class="anchored" data-anchor-id="loading-data">Loading Data</h2>
+<section id="loading-data" class="level3">
+<h3 class="anchored" data-anchor-id="loading-data">Loading Data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">"https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/refs/heads/master/AN588_Fall23/zombies.csv"</span>) <span class="co">#make sure you load the raw data and not the csv file</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>zombies <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(z, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -192,9 +181,8 @@ Attaching package: 'curl'</code></pre>
 </div>
 </div>
 </section>
-<section id="q1-population-mean-standard-deviation" class="level2">
-<h2 class="anchored" data-anchor-id="q1-population-mean-standard-deviation">Q1: Population Mean &amp; Standard Deviation</h2>
-<p>Calculate the <em>population</em> mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in <code>var()</code> and <code>sd()</code> commands as these are for <em>samples</em>.</p>
+<section id="q1-calculate-the-population-mean-and-standard-deviation-for-each-quantitative-random-variable-height-weight-age-number-of-zombies-killed-and-years-of-education.-note-you-will-not-want-to-use-the-built-in-var-and-sd-commands-as-these-are-for-samples." class="level3">
+<h3 class="anchored" data-anchor-id="q1-calculate-the-population-mean-and-standard-deviation-for-each-quantitative-random-variable-height-weight-age-number-of-zombies-killed-and-years-of-education.-note-you-will-not-want-to-use-the-built-in-var-and-sd-commands-as-these-are-for-samples.">Q1: Calculate the <em>population</em> mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in <code>var()</code> and <code>sd()</code> commands as these are for <em>samples</em>.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pop_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="co"># Defining a function `pop_stats` that calculates population mean and SD for a numeric vector.</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>{</span>
@@ -226,9 +214,8 @@ Attaching package: 'curl'</code></pre>
 </div>
 </div>
 </section>
-<section id="q2-boxplots-by-gender" class="level2">
-<h2 class="anchored" data-anchor-id="q2-boxplots-by-gender">Q2: Boxplots by Gender</h2>
-<p>Use {ggplot} to make boxplots of each of these variables by gender.</p>
+<section id="q2-use-ggplot-to-make-boxplots-of-each-of-these-variables-by-gender." class="level3">
+<h3 class="anchored" data-anchor-id="q2-use-ggplot-to-make-boxplots-of-each-of-these-variables-by-gender.">Q2: Use {ggplot} to make boxplots of each of these variables by gender.</h3>
 <p><strong>1) Boxplot of height by gender</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(zombies, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> height)) <span class="sc">+</span> <span class="do">## Initialize ggplot with the zombies dataset, mapping 'gender' to x-axis, 'height' to y-axis</span></span>
@@ -295,9 +282,8 @@ Attaching package: 'curl'</code></pre>
 </div>
 </div>
 </section>
-<section id="q3-scatterplots-of-height-and-weight-vs.-age" class="level2">
-<h2 class="anchored" data-anchor-id="q3-scatterplots-of-height-and-weight-vs.-age">Q3: Scatterplots of Height and Weight vs.&nbsp;Age</h2>
-<p>Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?</p>
+<section id="q3-use-ggplot-to-make-scatterplots-of-height-and-weight-in-relation-to-age.-do-these-variables-seem-to-be-related-in-what-way" class="level3">
+<h3 class="anchored" data-anchor-id="q3-use-ggplot-to-make-scatterplots-of-height-and-weight-in-relation-to-age.-do-these-variables-seem-to-be-related-in-what-way">Q3: Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(zombies, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> height)) <span class="sc">+</span> </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
@@ -322,9 +308,8 @@ Attaching package: 'curl'</code></pre>
 </div>
 <p><em>Height clearly goes up as age increases; older survivors tend to be taller (survival 101 for zombie attack XD). Weight also seems to rise a bit with age, but it’s not as clear. There’s more scatter in the weight plot, so the relationship is weaker than it is for height.</em></p>
 </section>
-<section id="q4-check-normality-histograms-q-q-plots" class="level2">
-<h2 class="anchored" data-anchor-id="q4-check-normality-histograms-q-q-plots">Q4: Check Normality (Histograms + Q-Q Plots)</h2>
-<p>Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?</p>
+<section id="q4-using-histograms-and-q-q-plots-check-whether-the-quantitative-variables-seem-to-be-drawn-from-a-normal-distribution.-which-seem-to-be-and-which-do-not-hint-not-all-are-drawn-from-the-normal-distribution-for-those-that-are-not-normal-can-you-determine-from-which-common-distribution-they-are-drawn" class="level3">
+<h3 class="anchored" data-anchor-id="q4-using-histograms-and-q-q-plots-check-whether-the-quantitative-variables-seem-to-be-drawn-from-a-normal-distribution.-which-seem-to-be-and-which-do-not-hint-not-all-are-drawn-from-the-normal-distribution-for-those-that-are-not-normal-can-you-determine-from-which-common-distribution-they-are-drawn">Q4: Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plot_diagnostics <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var) <span class="co"># Defining a function 'plot_diagnostics' that takes a dataset and a variable name (var) as arguments.</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  {</span>
@@ -425,21 +410,20 @@ Attaching package: 'curl'</code></pre>
 </div>
 <p><em>Height, weight, and age look roughly bell-shaped (close to normal). By contrast, zombies_killed is heavily skewed and discrete (which is expected, of course the adults who are at their prime would be able to kill more zombies than elderly or children); more like a Poisson (or at least some skewed count distribution). Similarly, years_of_education is discrete and skewed, so it likely isn’t normal and may also follow a count-type distribution.</em></p>
 </section>
-<section id="q5-sample-of-30-survivors-95-cis" class="level2">
-<h2 class="anchored" data-anchor-id="q5-sample-of-30-survivors-95-cis">Q5: Sample of 30 Survivors &amp; 95% CIs</h2>
-<p>Now use the <code>sample()</code> function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…</p>
+<section id="q5-now-use-the-sample-function-to-sample-one-subset-of-30-zombie-survivors-without-replacement-from-this-population-and-calculate-the-mean-and-sample-standard-deviation-for-each-variable.-also-estimate-the-standard-error-for-each-variable-and-construct-the-95-confidence-interval-for-each-mean.-note-that-for-the-variables-that-are-not-drawn-from-the-normal-distribution-you-may-need-to-base-your-estimate-of-the-cis-on-slightly-different-code-than-for-the-normal" class="level3">
+<h3 class="anchored" data-anchor-id="q5-now-use-the-sample-function-to-sample-one-subset-of-30-zombie-survivors-without-replacement-from-this-population-and-calculate-the-mean-and-sample-standard-deviation-for-each-variable.-also-estimate-the-standard-error-for-each-variable-and-construct-the-95-confidence-interval-for-each-mean.-note-that-for-the-variables-that-are-not-drawn-from-the-normal-distribution-you-may-need-to-base-your-estimate-of-the-cis-on-slightly-different-code-than-for-the-normal">Q5: Now use the <code>sample()</code> function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># For reproducibility</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>zombies_samp1 <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(zombies, <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sample_stats <span class="ot">&lt;-</span> zombies_samp1 <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sample_stats <span class="ot">&lt;-</span> zombies_samp1 <span class="sc">%&gt;%</span> <span class="co"># Summarize the first sample of 30 zombie survivors</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_height =</span> <span class="fu">mean</span>(height),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_height   =</span> <span class="fu">sd</span>(height),</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">se_height   =</span> sd_height<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_l_height =</span> mean_height <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>se_height,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_u_height =</span> mean_height <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se_height,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_height =</span> <span class="fu">mean</span>(height), <span class="co"># Calculate the mean height</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_height   =</span> <span class="fu">sd</span>(height), <span class="co">#standard deviation</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">se_height   =</span> sd_height<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()), <span class="co">#standard error of height ((sd / sqrt(n))</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_l_height =</span> mean_height <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>se_height, <span class="co"># Lower bound of 95% CI for mean height (z-score = 1.96)</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_u_height =</span> mean_height <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se_height, <span class="co"># Upper bound of 95% CI for mean height</span></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight   =</span> <span class="fu">sd</span>(weight),</span>
@@ -466,7 +450,7 @@ Attaching package: 'curl'</code></pre>
 <span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_u_edu    =</span> mean_edu <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se_edu</span>
 <span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>sample_stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>sample_stats <span class="co">#Displaying the calculated statistics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  mean_height sd_height se_height ci_l_height ci_u_height mean_weight sd_weight
 1    67.63939  3.530531 0.6445838    66.37601    68.90277    146.4101  14.64095
@@ -478,7 +462,96 @@ Attaching package: 'curl'</code></pre>
 1 1.422722 0.2597523 2.590885 3.609115</code></pre>
 </div>
 </div>
-<p>…..</p>
+</section>
+<section id="q6-now-draw-99-more-random-samples-of-30-zombie-apocalypse-survivors-and-calculate-the-mean-for-each-variable-for-each-of-these-samples.-together-with-the-first-sample-you-drew-you-now-have-a-set-of-100-means-for-each-variable-each-based-on-30-observations-which-constitutes-a-sampling-distribution-for-each-variable.-what-are-the-means-and-standard-deviations-of-this-distribution-of-means-for-each-variable-how-do-the-standard-deviations-of-means-compare-to-the-standard-errors-estimated-in-5-what-do-these-sampling-distributions-look-like-a-graph-might-help-here-are-they-normally-distributed-what-about-for-those-variables-that-you-concluded-were-not-originally-drawn-from-a-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="q6-now-draw-99-more-random-samples-of-30-zombie-apocalypse-survivors-and-calculate-the-mean-for-each-variable-for-each-of-these-samples.-together-with-the-first-sample-you-drew-you-now-have-a-set-of-100-means-for-each-variable-each-based-on-30-observations-which-constitutes-a-sampling-distribution-for-each-variable.-what-are-the-means-and-standard-deviations-of-this-distribution-of-means-for-each-variable-how-do-the-standard-deviations-of-means-compare-to-the-standard-errors-estimated-in-5-what-do-these-sampling-distributions-look-like-a-graph-might-help-here-are-they-normally-distributed-what-about-for-those-variables-that-you-concluded-were-not-originally-drawn-from-a-normal-distribution">Q6: Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a <em>sampling</em> distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were <em>not</em> originally drawn from a normal distribution?</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">456</span>) <span class="co"># Seting the seed for reproducibility in random number generation</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>n_samples <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># Defining how many samples to draw (i.e., how many times we'll repeat the sampling process)</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">30</span> <span class="co"># Specifying the size of each sample</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a function `draw_means` that takes a dataset and a desired sample size, draws a random sample of that size, and returns a named vector of means.</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>draw_means <span class="ot">&lt;-</span> <span class="cf">function</span>(data, n){</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Randomly sample n rows from 'data' without replacement</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(data, n)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return a vector of means for the variables of interest</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_height =</span> <span class="fu">mean</span>(samp<span class="sc">$</span>height),</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight =</span> <span class="fu">mean</span>(samp<span class="sc">$</span>weight),</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age    =</span> <span class="fu">mean</span>(samp<span class="sc">$</span>age),</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_zombies_killed =</span> <span class="fu">mean</span>(samp<span class="sc">$</span>zombies_killed),</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_education      =</span> <span class="fu">mean</span>(samp<span class="sc">$</span>years_of_education)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>samp_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_samples, <span class="fu">draw_means</span>(zombies, sample_size)) <span class="co">#Using `replicate` to repeat the `draw_means` function n_samples times.This creates a matrix where each column is one repetition.</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>samp_means <span class="ot">&lt;-</span> <span class="fu">t</span>(samp_means) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="co"># Transposing the resulting matrix so each row represents one sample's means, then convert it into a data frame.</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(samp_means) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mean_height"</span>, <span class="st">"mean_weight"</span>, <span class="st">"mean_age"</span>, </span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"mean_zombies_killed"</span>, <span class="st">"mean_education"</span>) <span class="co"># Renaming the columns for clarity, matching each row's data to the correct variable name</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>sampling_dist_stats <span class="ot">&lt;-</span> samp_means <span class="sc">%&gt;%</span> <span class="co"># Calculating summary statistics (mean, standard deviation) across the 100 sample means for each variable, giving us the sampling distribution stats.</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_mean_height  =</span> <span class="fu">mean</span>(mean_height),</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_sd_height    =</span> <span class="fu">sd</span>(mean_height),</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_mean_weight  =</span> <span class="fu">mean</span>(mean_weight),</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_sd_weight    =</span> <span class="fu">sd</span>(mean_weight),</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_mean_age     =</span> <span class="fu">mean</span>(mean_age),</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_sd_age       =</span> <span class="fu">sd</span>(mean_age),</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_mean_zombies_killed =</span> <span class="fu">mean</span>(mean_zombies_killed),</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_sd_zombies_killed   =</span> <span class="fu">sd</span>(mean_zombies_killed),</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_mean_education =</span> <span class="fu">mean</span>(mean_education),</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_sd_education   =</span> <span class="fu">sd</span>(mean_education)</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>sampling_dist_stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  dist_mean_height dist_sd_height dist_mean_weight dist_sd_weight dist_mean_age
+1         67.68486      0.6852831         144.1016        3.44807      20.11057
+  dist_sd_age dist_mean_zombies_killed dist_sd_zombies_killed
+1   0.4948614                     2.96              0.3049535
+  dist_mean_education dist_sd_education
+1               2.969         0.2786957</code></pre>
+</div>
+</div>
+<p><strong>Visualing the result (taking height):</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example for mean_height</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(samp_means, <span class="fu">aes</span>(<span class="at">x =</span> mean_height)) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>, <span class="at">fill=</span><span class="st">"steelblue"</span>, <span class="at">color=</span><span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sampling Distribution of Mean Height (n=30)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sghorui_OriginalHomeworkCode_03_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(samp_means, <span class="fu">aes</span>(<span class="at">sample =</span> mean_height)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>(<span class="at">color=</span><span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Q-Q Plot: Mean Height Distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sghorui_OriginalHomeworkCode_03_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Difficulties I faced:</p>
+<ul>
+<li><p>I spent way too long trying to remember why I kept getting slightly off values. Turned out <code>sd()</code> uses the sample formula, so I had to manually code the population version.</p></li>
+<li><p>I messed up the YAML header a few times, causing the document not to render. I also had to figure out how to properly embed images and theme settings in Quarto.</p></li>
+<li><p>I kept mixing up the <code>%&gt;%</code> pipe with normal function arguments, causing weird errors. A single misplaced parenthesis or bracket was enough to bring my code to a halt.</p></li>
+<li><p>At first, I tried <code>map_df</code> and ended up with an error. I had to look up the difference between <code>map_df</code> and <code>map_dfr</code> and realized <code>map_dfr</code> was the right choice for row-binding tibbles.</p></li>
+<li><p>Initially, I’d run the code multiple times and get different results, which confused me. Then I remembered I needed <code>set.seed()</code> so that my sampling would be reproducible and consistent.</p></li>
+</ul>
 </section>
 
 </main>
