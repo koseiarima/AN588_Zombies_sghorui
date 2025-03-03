@@ -1,0 +1,511 @@
+---
+title: "AN 588 Homework 3"
+author: "Akiva Zeff"
+format:
+  html:
+    toc : true
+    toc-depth: 4
+    toc-location: left
+    toc-title: "Questions"
+editor: visual
+theme: journal
+---
+
+\* A quick note to my teammates: I'm aware that I didn't use the correct theme. I much prefer using Quarto over RMarkdown, and I couldn't seem to get *'readthedown'* to work in it. I've confirmed that this is okay.
+
+[Zombie video](https://www.youtube.com/watch?v=t1TDvy7djJg)
+
+```{r}
+# If necessary, install these packages in R before rendering:
+# install.packages("curl")
+# install.packages("ggplot")
+# install.packages("gridExtra")
+# install.packages("car")
+```
+
+```{r}
+# Loading the dataset
+library(curl)
+zombies <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/zombies.csv")
+z <- read.csv(zombies, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+```
+
+------------------------------------------------------------------------
+
+## 1. Population mean and SD
+
+*Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education).*
+
+```{r}
+# Making a function to print nicely formatted means (I spent way too long on this)
+nice_mean <- function(x) {
+  y <- sub("^z\\$", "", deparse(substitute(x))) # converting the input into a string and removing the "z$"
+  y <- gsub("_", " ", y) # replacing any potential underscores with spaces
+  print(paste("Mean", y, "is", round(mean(x), 2)), quote = FALSE)
+}
+
+nice_mean(z$height)
+nice_mean(z$weight)
+nice_mean(z$age)
+nice_mean(z$zombies_killed)
+nice_mean(z$years_of_education)
+
+print(" ", quote = FALSE) # line break between mean and sd
+
+# Making a standard deviation function
+pop_sd <- function(x) {
+  sqrt(mean((x - mean(x))^2))
+}
+
+# Making a function to nicely print the standard deviations
+nice_sd <- function(x) {
+  y <- sub("^z\\$", "", deparse(substitute(x)))
+  y <- gsub("_", " ", y)
+  print(paste("Standard deviation of", y, "is", round(pop_sd(x), 3)), quote = FALSE)
+}
+
+nice_sd(z$height)
+nice_sd(z$weight)
+nice_sd(z$age)
+nice_sd(z$zombies_killed)
+nice_sd(z$years_of_education)
+```
+
+Soumalya's comments: nice_mean() and nice_sd() are nicely abstracted, but you may consider returning a simple named vector or data frame instead of printing if you ever want to programmatically use the results. Also note you are consistently using the population standard deviation for pop_sd().That is correct as you’ve labeled it “population” SD, but keep in mind many built-in stats functions (like sd()) default to sample-based (n–1).
+
+------------------------------------------------------------------------
+
+## 2. Boxplots
+
+*Use {ggplot} to make boxplots of each of these variables by gender.*
+
+```{r}
+library(ggplot2)
+library(gridExtra) # allows me to easily arrange my plots in a grid
+
+# Making the individual boxplots
+bp <- ggplot(data = z, aes(x = gender, y = height))
+bp <- bp + geom_boxplot(fill = c('orange', "cornflowerblue", "gold")) # I like these colors
+bp <- bp + theme_gray()
+bp <- bp + theme(axis.text.x = element_text(angle = 90))
+bp <- bp + ylab("Height (in)")
+bp <- bp +xlab("Gender")
+
+bp2 <- ggplot(data = z, aes(x = gender, y = weight))
+bp2 <- bp2 + geom_boxplot(fill = c('orange', "cornflowerblue", "gold"))
+bp2 <- bp2 + theme_gray()
+bp2 <- bp2 + theme(axis.text.x = element_text(angle = 90))
+bp2 <- bp2 + ylab("Weight (lb)")
+bp2 <- bp2 +xlab("Gender")
+
+bp3 <- ggplot(data = z, aes(x = gender, y = age))
+bp3 <- bp3 + geom_boxplot(fill = c('orange', "cornflowerblue", "gold"))
+bp3 <- bp3 + theme_gray()
+bp3 <- bp3 + theme(axis.text.x = element_text(angle = 90))
+bp3 <- bp3 + ylab("Age")
+bp3 <- bp3 +xlab("Gender")
+
+bp4 <- ggplot(data = z, aes(x = gender, y = zombies_killed))
+bp4 <- bp4 + geom_boxplot(fill = c('orange', "cornflowerblue", "gold"))
+bp4 <- bp4 + theme_gray()
+bp4 <- bp4 + theme(axis.text.x = element_text(angle = 90))
+bp4 <- bp4 + ylab("Number of zombies killed")
+bp4 <- bp4 +xlab("Gender")
+
+bp5 <- ggplot(data = z, aes(x = gender, y = years_of_education))
+bp5 <- bp5 + geom_boxplot(fill = c('orange', "cornflowerblue", "gold"))
+bp5 <- bp5 + theme_gray()
+bp5 <- bp5 + theme(axis.text.x = element_text(angle = 90))
+bp5 <- bp5 + ylab("Years of education")
+bp5 <- bp5 +xlab("Gender")
+
+# Faceting them into a grid
+grid.arrange(bp, bp2, bp3, bp4, bp5, ncol = 3)
+```
+
+Soumalya's Comments:
+
+It is perfectly valid to create each plot separately as you do here. Another approach is to loop over the variable names or reshape the data into "long" format with tidyr for fewer repeated lines.
+
+------------------------------------------------------------------------
+
+## 3. Scatterplots
+
+*Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?*
+
+```{r}
+# Making the scatterplots
+sp <- ggplot(data = z, aes(x = age, y = height))
+sp <- sp + ylab("Height (in)") + xlab("Age")
+sp <- sp + geom_point(color = "cornflowerblue")
+sp <- sp + geom_smooth(method = "lm", fullrange = TRUE, color = "blue") # adding a regression line
+
+sp2 <- ggplot(data = z, aes(x = age, y = weight))
+sp2 <- sp2 + ylab("Weight (lb)") + xlab("Age")
+sp2 <- sp2 + geom_point(color = "lightgreen")
+sp2 <- sp2 + geom_smooth(method = "lm", fullrange = TRUE, color = "forestgreen")
+
+#Faceting
+grid.arrange(sp, sp2, ncol = 2)
+```
+
+Both height and weight seem to be positively correlated with age. However, weight seems to have a less pronounced correlation.
+
+Soumalya's Comments: Great usage of geom_smooth to visualize linear trends. If you’d like the same color across your points and line, you can pass one color to geom_point() and use, e.g.: geom_smooth(method = "lm", formula = y \~ x, se=FALSE, color="blue") Also note that specifying a formula is often recommended.
+
+------------------------------------------------------------------------
+
+## 4. Checking distribution types
+
+*Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not? For those that are not normal, can you determine from which common distribution they are drawn?*
+
+```{r}
+library(car)
+
+# This whole thing here is purely for the purpose of making it so that the CIs for my QQ plots have random colors, but none of the colors repeat.  As such, it has to be outside of the function.  This is purely for fun.
+random_colors <- sample(c(2, 3, 4, 5, 7, 8)) # shuffling the colors so that the order isn't always the same.  These numbers are my favorite carPalette() colors.
+color_index <- 1 # tracks the index of the colors
+
+# Making a function to generate each pair of plots
+plots <- function(x) {
+  y <- sub("^z\\$", "", deparse(substitute(x)))
+  y <- gsub("_", " ", y)
+  st <- (x - mean(x))/pop_sd(x) # standardizing the data (using population sd function)
+
+  # Generating the histogram
+  hist(st, probability = TRUE, main = paste("Standardized histogram of", y),  xlab = y, ylab = "probability")
+    curve(dnorm(x, 0, 1), -4, 4, ylim = c(0, 0.4), add = TRUE, col = "cornflowerblue") # plotting a normal curve on the histogram
+  
+  # Generating the QQ plot using the {car} package
+  qqPlot(x, main = paste("QQ plot of", y, "w/ confidence interval"), col = carPalette()[1], col.lines = carPalette()[random_colors[color_index]], id = FALSE)
+  color_index <<- (color_index %% length(random_colors)) + 1 # increases the index by one each time the function is run (up to 6)
+}
+```
+
+------------------------------------------------------------------------
+
+#### Height
+
+```{r}
+plots(z$height)
+shapiro.test(z$height) # Shapiro-Wilk test for normality.  A p-value greater than 0.05 indicates approximate normal distribution
+```
+
+Height looks to be normally distributed.
+
+------------------------------------------------------------------------
+
+#### Weight
+
+```{r}
+plots(z$weight)
+shapiro.test(z$weight)
+```
+
+Weight also looks to be normal.
+
+------------------------------------------------------------------------
+
+#### Age
+
+```{r}
+plots(z$age)
+shapiro.test(z$age)
+```
+
+Age is also normal.
+
+------------------------------------------------------------------------
+
+#### Zombies killed
+
+```{r}
+plots(z$zombies_killed)
+shapiro.test(z$zombies_killed)
+```
+
+The number of zombies killed is an integer, and is unsurprisingly not a normal distribution. In order to figure out what it is, I'm going to start by plotting it not standardized:
+
+```{r}
+hist(z$zombies_killed, probability = TRUE, main = "Histogram of zombies killed",  xlab = "zombies killed", ylab = "probability")
+```
+
+This looks to me more like a Poisson distribution, which would make sense as it is used for counts of independently occurring events. I can generate a probability mass function for a Poisson distribution to compare it to:
+
+```{r}
+barplot(dpois(0:11, mean(z$zombies_killed)), names.arg = 0:11, space = 0, xlab = "x", ylab = "probability", main = "Poisson PMF")
+```
+
+It's not perfect, but I think this is the most likely candidate for the distribution. I can test this using a chi-squared test:
+
+```{r}
+# First, I convert the occurences of each number of zombies killed into the frequency of each result between 0 (the minimum) and 11 (the maximum)
+real_freqs <- prop.table(table(factor(z$zombies_killed, levels = 0:11))) # I make a table with the number of occurences of each number, and then convert those into probabilities
+
+
+# Next, I find the probabilities of each value from 0 to 11 in a Poisson distribution
+theoretical_freqs = dpois(0:11, lambda = mean(z$zombies_killed))/sum(dpois(0:11, lambda = mean(z$zombies_killed)))
+
+
+# Finally, I can run my chi-squared test
+chisq.test(real_freqs, p = theoretical_freqs)
+```
+
+Given a p-value of 1, I think it's safe to say that these values were drawn from a Poisson distribution.
+
+------------------------------------------------------------------------
+
+#### Years of education
+
+```{r}
+plots(z$years_of_education)
+shapiro.test(z$years_of_education)
+```
+
+Again, clearly not a normal distribution. I'll un-standardize and try the Poisson distribution again:
+
+```{r}
+hist(z$years_of_education, probability = TRUE, main = "Histogram of years of education",  xlab = "zombies killed", ylab = "probability")
+
+barplot(dpois(0:8, mean(z$years_of_education)), names.arg = 0:8, space = 0, xlab = "x", ylab = "probability", main = "Poisson PMF")
+```
+
+Again, Poisson distribution seems most likely. I'll confirm with a chi-squared test:
+
+```{r}
+real_freqs <- prop.table(table(factor(z$years_of_education, levels = 0:8)))
+
+theoretical_freqs = dpois(0:8, lambda = mean(z$years_of_education))/sum(dpois(0:8, lambda = mean(z$years_of_education)))
+
+chisq.test(real_freqs, p = theoretical_freqs)
+```
+
+Again, I think it's safe to say that this is drawn from a Poisson distribution!
+
+Soumalya's Comments: Very nice standardized histograms + QQ plots. Using pop_sd() for standardizing is consistent with your earlier use of population SD. Keep in mind that shapiro.test() uses the sample-based approach. Typically that’s fine, but just good to remember the difference if you’re using a large dataset.
+
+------------------------------------------------------------------------
+
+## 5. Sampling
+
+*Now use the `sample()` function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…*
+
+```{r}
+# Generating my sample subset
+zs <- z[sample(nrow(z), 30), ]
+
+# This function will calculate SE
+se <- function(x) {
+  round(sqrt(var(x)/length(x)), 3)
+}
+
+# To make life easier, I'll just make one function that runs all mean, SD, and SE all at once
+whole_package <- function(x) {
+  y <- sub("^zs\\$", "", deparse(substitute(x)))
+  y <- gsub("_", " ", y)
+  print(paste("Mean", y, "is", round(mean(x), 2)), quote = FALSE)
+  print(paste("Standard deviation of", y, "is", round(sd(x), 3)), quote = FALSE)
+  print(paste("Standard error of", y, "is", round(sqrt(var(x)/length(x)), 3)), quote = FALSE)
+}
+
+# Finally, I make a function to calculate the 95% CI for normal distributions
+ci_mean <- function(x) {
+  upper <- mean(x) + qnorm(0.975, mean = 0, sd = 1) * se(x)
+  lower <- mean(x) + qnorm(0.025, mean = 0, sd = 1) * se(x)
+  return(c(Lower = lower, Upper = upper))
+}
+```
+
+------------------------------------------------------------------------
+
+#### Height
+
+```{r}
+whole_package(zs$height)
+ci_mean(zs$height)
+```
+
+------------------------------------------------------------------------
+
+#### Weight
+
+```{r}
+whole_package(zs$weight)
+ci_mean(zs$weight)
+```
+
+------------------------------------------------------------------------
+
+#### Age
+
+```{r}
+whole_package(zs$age)
+ci_mean(zs$age)
+```
+
+------------------------------------------------------------------------
+
+#### Zombies killed
+
+```{r}
+whole_package(zs$zombies_killed)
+```
+
+Because zombies killed is drawn from a Poisson distribution rather than a normal distribution, I'll have to calculate the confidence interval differently:
+
+```{r}
+# Making a function for Poisson CIs
+ci_pois <- function(x) {
+  lower <- 0.5 * qchisq(0.025, 2 * mean(x))
+  upper <- 0.5 * qchisq(0.975, 2 * (mean(x) + 1))
+  return(c(Lower = lower, Upper = upper))
+}
+
+ci_pois(zs$zombies_killed)
+```
+
+------------------------------------------------------------------------
+
+#### Years of Education
+
+```{r}
+whole_package(zs$years_of_education)
+ci_pois(zs$years_of_education) # using my Poisson CI function
+```
+
+Soumalya's Comments -- This block is nice. The only nuance is to keep in mind that you use sample-based sd() (which does n–1) for the standard deviation in your “whole_package” function, while previously you used pop_sd() for population-level measures. That’s typically correct, but worth clarifying or labeling carefully for your code readers.
+
+------------------------------------------------------------------------
+
+## 6. More sampling
+
+*Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in \[5\]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?*
+
+```{r}
+# I start by making a new data frame that only contains the relevant columns
+z_num <- z[sapply(z, is.numeric)]
+
+# I sample 99 more times and compute the means all in one go
+sample_means <- replicate(99, colMeans(z_num[sample(nrow(z_num), 30, replace = FALSE), ]), simplify = TRUE)
+sample_means <- as.data.frame(t(sample_means)) # converting to a dataframe
+
+# I need to add the values from the first sample
+zs_means <- data.frame(matrix(c(1, mean(zs$height), mean(zs$weight), mean(zs$zombies_killed), mean(zs$years_of_education), mean(zs$age)), nrow = 1)) # making a dataframe with all of the means
+
+colnames(zs_means) <- colnames(sample_means) # porting over the correct column names
+
+sample_means <- rbind(sample_means, zs_means) # combining all of the samples
+
+# Making functions to report means and standard deviations
+nice_mean <- function(x) {
+  y <- sub("^sample_means\\$", "", deparse(substitute(x)))
+  y <- gsub("_", " ", y)
+  print(paste("Mean", y, "is", round(mean(x), 3)), quote = FALSE)
+}
+
+nice_sd <- function(x) {
+  y <- sub("^sample_means\\$", "", deparse(substitute(x)))
+  y <- gsub("_", " ", y)
+  print(paste("Standard deviation of", y, "is", round(sd(x), 3)), quote = FALSE)
+}
+
+# Function to easily compare the standard deviations of the means to the standard errors calculated earlier
+sd_vs_se <- function(x, y) {
+  print(paste("The difference between this SD and the SE estimated earlier is", round(abs(se(y) - sd(x)), 3)), quote = FALSE)
+}
+
+# I'll also update my old plots() function for use with these variables
+  
+  # Again, this is just for the random colors:
+  random_colors2 <- sample(c(2, 3, 4, 5, 7, 8)) # different variables for truly independent order
+  color_index2 <- 1
+
+mean_plots <- function(x) {
+  y <- sub("^sample_means\\$", "", deparse(substitute(x)))
+  y <- gsub("_", " ", y)
+  st <- (x - mean(x))/pop_sd(x) # standardizing
+
+  # Histogram
+  hist(st, probability = TRUE, main = paste("Standardized histogram of", y),  xlab = y, ylab = "probability")
+    curve(dnorm(x, 0, 1), -4, 4, ylim = c(0, 0.4), add = TRUE, col = "cornflowerblue")
+  
+  # QQ plot
+  qqPlot(x, main = paste("QQ plot of", y, "w/ confidence interval"), col = carPalette()[1], col.lines = carPalette()[random_colors2[color_index2]], id = FALSE)
+  color_index2 <<- (color_index2 %% length(random_colors2)) + 1
+}
+```
+
+------------------------------------------------------------------------
+
+#### Height
+
+```{r}
+nice_mean(sample_means$height)
+nice_sd(sample_means$height)
+sd_vs_se(sample_means$height, zs$height)
+shapiro.test(sample_means$height)
+
+mean_plots(sample_means$height)
+```
+
+------------------------------------------------------------------------
+
+#### Weight
+
+```{r}
+nice_mean(sample_means$weight)
+nice_sd(sample_means$weight)
+sd_vs_se(sample_means$weight, zs$weight)
+shapiro.test(sample_means$weight)
+
+mean_plots(sample_means$weight)
+```
+
+------------------------------------------------------------------------
+
+#### Age
+
+```{r}
+nice_mean(sample_means$age)
+nice_sd(sample_means$age)
+sd_vs_se(sample_means$age, zs$age)
+shapiro.test(sample_means$age)
+
+mean_plots(sample_means$age)
+```
+
+------------------------------------------------------------------------
+
+#### Zombies killed
+
+```{r}
+nice_mean(sample_means$zombies_killed)
+nice_sd(sample_means$zombies_killed)
+sd_vs_se(sample_means$zombies_killed, zs$zombies_killed)
+shapiro.test(sample_means$zombies_killed)
+
+mean_plots(sample_means$zombies_killed)
+```
+
+------------------------------------------------------------------------
+
+#### Years of education
+
+```{r}
+nice_mean(sample_means$years_of_education)
+nice_sd(sample_means$years_of_education)
+sd_vs_se(sample_means$years_of_education, zs$years_of_education)
+shapiro.test(sample_means$years_of_education)
+
+mean_plots(sample_means$years_of_education)
+```
+
+Soumalya's Comments: replicate() is a neat approach. Note you’re not storing the actual samples, just their column means. That’s typically enough for the sampling distribution. Also, do note that combining a matrix, your “first sample means,” and then turning it all into a data frame is a bit of overhead – it works fine, though. If you ever needed indices for the sample data, store them in a list or data frame, e.g. replicate(..., ..., simplify=FALSE).
+
+As we can see, the sample deviations of the means are generally very similar to the standard errors calculate in question 5. The plots and Shapiro-Wilk test indicate that these distributions are roughly normal (at least for my samples - keep in mind that each run of this code is random). The interesting thing is that the distribution of our sample means for zombies killed and years of education are normal, despite the fact that those variable weren't normal at all in our initial sampling. Again, this makes sense in light of the Central Limit Theorem – after all, we're not graphing the distributions of the variables themselves, but rather the means of our samples of these variables.
+
+I didn't really encounter any challenges in this assignment that I didn't bring upon myself. I put in a lot of extra effort to automate as much as possible with functions, which at times gave me grief - see for example the workarounds I had to create to use the column names in my text in Question 1 or to generate random, non-repeating colors in question 4. However, I found the base assignment straightforward enough.
+
+Overall comment:
+
+Your code is very thorough. I liked it! You are building quite an extensive demonstration of exploring sampling distributions. You’re also showing the central limit theorem in action (zombies_killed and years_of_education being non-normal in the population but “normal-ish” in the sampling distribution of the mean).
